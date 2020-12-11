@@ -113,11 +113,11 @@ def merge_twieetfile(root_tweet='./tweets', output_path='./tweets_merged'):
 
     for file in original_twitter_files:
         merged_df_dict[file.split(" ")[0]] = pd.concat([merged_df_dict[file.split(" ")[0]],
-                                                        pd.read_csv(root_tweet+'/'+file)])
+                                                        pd.read_csv(root_tweet+'/'+file, index_col=0)])
     # output files
     for company, file in merged_df_dict.items():
         file.drop_duplicates(inplace=True)
-        file.to_excel(output_path+'/'+company+'.xlsx', index=False)
+        file.to_excel(output_path+'/'+company+'.xlsx')
 
 
 # calculate sentiment for all companies and save those results
