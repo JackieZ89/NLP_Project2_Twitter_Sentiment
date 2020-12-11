@@ -8,11 +8,3 @@ volume and volatility with Twitter Sentiment across your sample of 12 individual
 securities over the most recent 10-day period available to you via the Twitter API.
 
 3) Draw conclusions about your analysis above and summarize in the final portion of your submission.
-
-
-
-1. 使用twitter API获得所选公司的twitter text数据，观察数据特征
-2. 对twitter数据进行预处理，一家公司一天大概1000条吧，stopwords, tokenize等等（可以参考那个python for NLP教材，或者CSDN查，我查好了）
-3. 计算sentiment，我们就是用lexicon-based像上次一样算一下先，有时间的话再用ML（ML要另算很多特征），字典就使用LM-dictionary
-4. 公司的价量数据，整理和计算分析时需要的因变量
-5. 统计分析就和论文里面一样，用Granger C吧
