@@ -33,6 +33,12 @@ def get_sentiment(tweet):
             return 'neutral'
         else: 
             return 'negative'
+
+
+
+
+
+
          
 def classify_sentiment(tweets_clean):
     sentiment = []
@@ -92,8 +98,49 @@ def cal_price_senti(df_price, tweets_clean):
     df_senti = cal_sentiment_scores(df_price, tweets_classified)
     return df_senti
     
-    
-    
+
+# merge tweet files for the same company, results are in tweets_merged
+def merge_twieetfile(root_tweet='./tweets', output_path='./tweets_merged'):
+    original_twitter_files = os.listdir(root_tweet)
+
+    company_list = [x.split(" ")[0] for x in original_twitter_files]
+    company_list = list(set(company_list))
+
+    merged_df_dict = {}
+
+    for company in company_list:
+        merged_df_dict[company] = pd.DataFrame()
+
+    for file in original_twitter_files:
+        merged_df_dict[file.split(" ")[0]] = pd.concat([merged_df_dict[file.split(" ")[0]],
+                                                        pd.read_csv(root_tweet+'/'+file)])
+    # output files
+    for company, file in merged_df_dict.items():
+        file.drop_duplicates(inplace=True)
+        file.to_excel(output_path+'/'+company+'.xlsx', index=False)
+
+
+# calculate sentiment for all companies and save those results
+def calculate_sentiment_all_company(root_tweet="./tweets_merged", root_price="./stockdata",
+                                    output_path="./statistical_analysis_data"):
+    twitter_files = os.listdir(root_tweet)
+    price_files = os.listdir(root_price)
+
+    for price_file in price_files:
+        if price_file == "SPY.xlsx": continue
+        # note here that both price file and tweet file have same name
+        df_price = pd.read_excel(root_price + '/' + price_file)
+        tweet_file = root_tweet + '/' + price_file
+
+        preprocessed = preprocess_tweet(tweet_file)
+        sentiment_added = cal_price_senti(df_price, preprocessed)
+
+        sentiment_added.to_excel(output_path+'/'+price_file)
+
+
+if __name__ == '__main__':
+    merge_twieetfile()
+    calculate_sentiment_all_company()
     
     
     
