@@ -22,7 +22,6 @@ stemmer = PorterStemmer()
 from textblob import TextBlob
 #https://textblob.readthedocs.io/en/dev/
 
-
         
 def get_sentiment(tweet):
     #use textbolb to get sentiment scores
@@ -33,10 +32,6 @@ def get_sentiment(tweet):
             return 'neutral'
         else: 
             return 'negative'
-
-
-
-
 
 
          
@@ -61,7 +56,14 @@ def excess_log_return(df,SPY_price, freq = 'H'):
     df_all['log_return'] = np.log(df_all['Last Price']) - np.log(df_all['Last Price'].shift(1))
     df_all['SPY_log_return'] = np.log(df_all['SPY_price']) - np.log(df_all['SPY_price'].shift(1))
     df_all['excess_log_return'] = df_all['log_return'] - df_all['SPY_log_return']
-    return df_all.loc[:,['Last Price','Volume','log_return','excess_log_return']]
+    
+     #calculate rolling volatility, starting date = 2020-11-30 09:30:00, price starting date: 2020-11-23 09:30:00
+    window = 3 * 7 + 4 # 7 days * 7 hours per day: 9:30 - 15:30
+    dpy = 252 * 7  # trading hours per year
+    ann_factor = dpy / window  
+    df_all['volatility'] = df_all['log_return'].rolling(window).std() * ann_factor #annulized volatility
+    
+    return df_all.loc[:,['Last Price','Volume','log_return','excess_log_return','volatility']]
  
 #把twitter和price的frequency对上, 然后计算每小时的sentiment score
 def cal_sentiment_scores(df_price, tweets_classified):
@@ -137,12 +139,12 @@ def calculate_sentiment_all_company(root_tweet="./tweets_merged", root_price="./
 
         sentiment_added.to_excel(output_path+'/'+price_file)
 
-
+'''
 if __name__ == '__main__':
     merge_twieetfile()
     calculate_sentiment_all_company()
     
-    
+'''
     
     
     
