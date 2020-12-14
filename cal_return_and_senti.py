@@ -71,7 +71,11 @@ def cal_sentiment_scores(df_price, tweets_classified):
     tweets_count = [None]
     sentiment_abs_score = [None]
     sentiment_rela_score = [None]
+    tweets_classified.sort_index(inplace=True)
     df_price = df_price[df_price.index > tweets_classified.index[0]]
+    if len(df_price) == 0:
+        print("zero df encountered")
+        print(tweets_classified.index[0])
     for i in range(len(df_price)-1):
         #todo: 把开头多余的stock 天数去掉
         temp = tweets_classified[(tweets_classified.index > df_price.index[i]) & (tweets_classified.index < df_price.index[i+1])]
