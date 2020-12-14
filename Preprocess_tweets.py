@@ -58,7 +58,8 @@ def preprocess(sentence):
 
 
 def preprocess_tweet(file):
-    tweets_df = pd.read_csv(file, index_col=0)
+    tweets_df = pd.read_excel(file, index_col=0)
+    if len(tweets_df.columns) > 1: tweets_df = tweets_df.iloc[:, :-1]
     # drop duplicate
     tweets_df.drop_duplicates(inplace=True)
     
