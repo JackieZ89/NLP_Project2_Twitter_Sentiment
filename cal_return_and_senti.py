@@ -21,7 +21,7 @@ lemmatizer = WordNetLemmatizer()
 stemmer = PorterStemmer() 
 from textblob import TextBlob
 #https://textblob.readthedocs.io/en/dev/
-
+from Preprocess_tweets import*
         
 def get_sentiment(tweet):
     #use textbolb to get sentiment scores
@@ -143,12 +143,12 @@ def calculate_sentiment_all_company(root_tweet="./tweets_merged", root_price="./
 
         sentiment_added.to_excel(output_path+'/'+price_file)
 
-'''
+
 if __name__ == '__main__':
     merge_twieetfile()
     calculate_sentiment_all_company()
     
-'''
+
     
     
     
