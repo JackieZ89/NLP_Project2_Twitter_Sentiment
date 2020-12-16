@@ -1,4 +1,7 @@
 # NLP_Project2_Twitter_Sentiment
+#### Dehao Wang, Jiaxin Zhang and Xiaoya Wang
+
+
 ### Read the report in file Twitter Sentiment Analysis Applied to Finance.pdf
 
 - Run DownloadTwitterTextData.ipynb for retrieving tweets using Twitter API.
